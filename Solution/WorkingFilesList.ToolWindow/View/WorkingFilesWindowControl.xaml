@@ -101,6 +101,15 @@
                             Visibility="Collapsed">
                     </Border>
 
+                    <Border x:Name="KeyboardFocusBackground"
+                            Background="{Binding ProjectBrush}"
+                            Focusable="False"
+                            IsHitTestVisible="False"
+                            Margin="0,1"
+                            Opacity="0"
+                            Visibility="Collapsed">
+                    </Border>
+
                     <ProgressBar BorderBrush="{Binding ProjectBrush}"
                                  Focusable="False"
                                  Foreground="{Binding ProjectBrush}"
@@ -118,8 +127,18 @@
                             Opacity="0"
                             Visibility="Collapsed">
                     </Border>
+
+                    <Border x:Name="KeyboardFocusBorder"
+                            BorderBrush="{Binding ProjectBrush}"
+                            BorderThickness="1"
+                            Focusable="False"
+                            IsHitTestVisible="False"
+                            Opacity="0"
+                            Visibility="Collapsed">
+                    </Border>
                     
-                    <controls:DragDropButton PinnedMetadataManager="{Binding DocumentMetadataManager, Source={StaticResource ViewModel}}">
+                    <controls:DragDropButton x:Name="DragDropButton"
+                                             PinnedMetadataManager="{Binding DocumentMetadataManager, Source={StaticResource ViewModel}}">
                         <controls:DragDropButton.Template>
                             <ControlTemplate>
                                 <Grid Background="Transparent" ToolTip="{Binding CorrectedFullName}">
@@ -314,6 +333,18 @@
                                           CommandParameter="{Binding}"
                                           Gesture="LeftDoubleClick">
                             </MouseBinding>
+
+                            <KeyBinding Command="{Binding ToolWindowCommands.ActivateWindow, Source={StaticResource ViewModel}}"
+                                        CommandParameter="{Binding}"
+                                        Key="Enter" />
+
+                            <KeyBinding Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
+                                        CommandParameter="{Binding}"
+                                        Key="Delete" />
+
+                            <KeyBinding Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
+                                        CommandParameter="{Binding}"
+                                        Key="Home" />
                         </Button.InputBindings>
                     </controls:DragDropButton>
 
@@ -362,7 +393,7 @@
                         <Button x:Name="PinButton"
                                 Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
                                 CommandParameter="{Binding}"
-                                ToolTip="Pin (Shortcut: Double-Click)">
+                                ToolTip="Pin (Shortcut: Double-Click or Home)">
                             <Image Source="Icon/PushpinUnpin_16xMD.png" RenderTransformOrigin="0.5, 0.5">
                                 <Image.RenderTransform>
                                     <RotateTransform x:Name="PinImageRotateTransform" Angle="0"/>
@@ -500,6 +531,71 @@
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>
                     </DataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsKeyboardFocused, ElementName=DragDropButton}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard TargetName="KeyboardFocusBackground">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0.2">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="KeyboardFocusBorder">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0.8">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiDataTrigger.EnterActions>
+
+                        <MultiDataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard TargetName="KeyboardFocusBackground">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="KeyboardFocusBorder">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiDataTrigger.ExitActions>
+                    </MultiDataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
 
@@ -532,6 +628,8 @@
                           SelectedValue="{Binding ProjectSortOptionName}"
                           SelectedValuePath="DisplayName"
                           ToolTip="Project Name Sort"
+                          Focusable="False"
+                          IsTabStop="False"
                           Width="60">
 
                     <ComboBox.ItemTemplate>
@@ -545,6 +643,8 @@
                           SelectedValue="{Binding DocumentSortOptionName}"
                           SelectedValuePath="DisplayName"
                           ToolTip="File Name Sort"
+                          Focusable="False"
+                          IsTabStop="False"
                           Width="60">
 
                     <ComboBox.ItemTemplate>
@@ -557,6 +657,7 @@
                 <Separator />
 
                 <coreControls:NumericUpDown Focusable="False"
+                                            IsTabStop="False"
                                             Minimum="1"
                                             ToolTip="File Name Segments"
                                             Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -576,6 +677,8 @@
                 <Separator />
 
                 <Button Command="{Binding ToolWindowCommands.OpenOptionsPage, Source={StaticResource ViewModel}}"
+                        Focusable="False"
+                        IsTabStop="False"
                         Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                         ToolTip="Options">
                     <Image Source="Icon/Settings_16x.png" />
@@ -583,6 +686,8 @@
                 
                 <ToggleButton x:Name="AboutButton"
                               x:FieldModifier="private"
+                              Focusable="False"
+                              IsTabStop="False"
                               ToolTip="Extension Information">
                     <Image Source="Icon/About.png" />
                 </ToggleButton>
@@ -596,6 +701,9 @@
               Visibility="{Binding UserPreferences.SearchBarVisibility}">
             <TextBox x:Name="FilterBox"
                      DataContext="{Binding DocumentMetadataManager}"
+                     Focusable="True"
+                     IsTabStop="True"
+                     TabIndex="1"
                      Padding="3,3,26,3"
                      Style="{StaticResource ToolWindowTextBox}"
                      Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -680,6 +788,7 @@
             <Grid.Resources>
                 <Style TargetType="controls:DragDropButton">
                     <Setter Property="AllowDragAndDrop" Value="True"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 </Style>
             </Grid.Resources>
             
@@ -693,7 +802,12 @@
                 </Style>
             </Grid.Style>
 
-            <ItemsControl ItemsSource="{Binding Mode=OneWay}">
+            <ItemsControl x:Name="PinnedDocumentsItemsControl"
+                          Focusable="True"
+                          IsTabStop="True"
+                          TabIndex="2"
+                          ItemsSource="{Binding Mode=OneWay}"
+                          KeyboardNavigation.TabNavigation="Once">
                 <ItemsControl.Template>
                     <ControlTemplate>
                         <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
@@ -715,10 +829,16 @@
             <Grid.Resources>
                 <Style TargetType="controls:DragDropButton">
                     <Setter Property="AllowDragAndDrop" Value="False"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 </Style>
             </Grid.Resources>
 
-            <ItemsControl ItemsSource="{Binding Mode=OneWay}">
+            <ItemsControl x:Name="ActiveDocumentsItemsControl"
+                          Focusable="True"
+                          IsTabStop="True"
+                          TabIndex="0"
+                          ItemsSource="{Binding Mode=OneWay}"
+                          KeyboardNavigation.TabNavigation="Once">
                 <ItemsControl.Template>
                     <ControlTemplate>
                         <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
@@ -737,8 +857,9 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type GroupItem}">
-                                            <StackPanel>
+                                            <StackPanel Focusable="False">
                                                 <TextBlock FontStyle="Italic"
+                                                           Focusable="False"
                                                            Opacity="{StaticResource InactiveItemOpacity}"
                                                            Text="{Binding Name.DisplayName}">
                                                 </TextBlock>
