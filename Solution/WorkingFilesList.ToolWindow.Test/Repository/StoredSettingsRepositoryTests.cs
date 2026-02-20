@@ -19,6 +19,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using Microsoft.VisualStudio.Settings;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Repository;
@@ -390,7 +391,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
-        public void GetShowRecentUsageReturnsDefaultValueIfNoStoredValueExists()
+        public void GetMetricIndicatorTypeReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
@@ -400,22 +401,22 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            var value = repository.GetShowRecentUsage();
+            var value = repository.GetMetricIndicatorType();
 
             // Assert
 
             Mock.Get(settingsStoreService).Verify(s =>
                 s.GetSettingsStore(true));
 
-            Assert.IsTrue(value);
+            Assert.That(value, Is.EqualTo(MetricIndicatorType.UsageOrder));
         }
 
         [Test]
-        public void ShowRecentUsageCanBeStoredAndRead()
+        public void MetricIndicatorTypeCanBeStoredAndRead()
         {
             // Arrange
 
-            const bool showRecentUsage = true;
+            const MetricIndicatorType metricIndicatorType = MetricIndicatorType.LineCount;
 
             var repository = CreateStoredSettingsRepository(
                 out var settingsStore,
@@ -423,7 +424,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            repository.SetShowRecentUsage(showRecentUsage);
+            repository.SetMetricIndicatorType(metricIndicatorType);
 
             // Assert
 
@@ -432,8 +433,8 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
-            var storedValue = repository.GetShowRecentUsage();
-            Assert.That(storedValue, Is.EqualTo(showRecentUsage));
+            var storedValue = repository.GetMetricIndicatorType();
+            Assert.That(storedValue, Is.EqualTo(metricIndicatorType));
         }
 
         [Test]
@@ -573,7 +574,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
-            var storedValue = repository.GetShowRecentUsage();
+            var storedValue = repository.GetShowConfigurationBar();
             Assert.That(storedValue, Is.EqualTo(showConfigurationBar));
         }
 

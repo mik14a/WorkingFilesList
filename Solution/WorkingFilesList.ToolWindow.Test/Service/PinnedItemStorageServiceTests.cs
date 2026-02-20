@@ -244,7 +244,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                     {
                         FullName = "ItemFullName",
                         ProjectDisplayName = "ItemProjectDisplayName",
-                        ProjectFullName = "ItemProjectFullName"
+                        ProjectFullName = "ItemProjectFullName",
+                        LineCount = 0
                     }, null, null)
             };
 
@@ -262,7 +263,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 // Assert
 
                 Assert.AreEqual(
-                    "[{\"FullName\":\"ItemFullName\",\"ProjectDisplayName\":\"ItemProjectDisplayName\",\"ProjectFullName\":\"ItemProjectFullName\"}]\r\n",
+                    "[{\"FullName\":\"ItemFullName\",\"ProjectDisplayName\":\"ItemProjectDisplayName\",\"ProjectFullName\":\"ItemProjectFullName\",\"LineCount\":0}]\r\n",
                     writer.WrittenData);
             }
         }

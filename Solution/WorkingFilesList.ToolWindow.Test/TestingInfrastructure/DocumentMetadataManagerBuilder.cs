@@ -59,8 +59,8 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         /// </summary>
         public IDocumentMetadataFactory DocumentMetadataFactory { get; set; }
 
-        public Mock<INormalizedUsageOrderService> NormalizedUsageOrderServiceMock { get; }
-            = new Mock<INormalizedUsageOrderService>();
+        public Mock<IMetricIndicatorService> MetricIndicatorServiceMock { get; }
+            = new Mock<IMetricIndicatorService>();
 
         public Mock<IProjectItemService> ProjectItemServiceMock { get; }
             = new Mock<IProjectItemService>();
@@ -115,7 +115,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                     new GroupByProjectReaction(),
                     new PathSegmentCountReaction(displayNameHighlightEvaluator, filePathService),
                     new SelectedSortOptionReaction(SortOptionsService),
-                    new ShowRecentUsageReaction(NormalizedUsageOrderServiceMock.Object)
+                    new ShowRecentUsageReaction(MetricIndicatorServiceMock.Object)
                 };
 
                 UpdateReactionMapping = new UpdateReactionMapping(updateReactions);
@@ -133,7 +133,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 CountdownTimer ?? new TestingCountdownTimer(),
                 DocumentMetadataEqualityService ?? new DocumentMetadataEqualityService(),
                 DocumentMetadataFactory,
-                NormalizedUsageOrderServiceMock.Object,
+                MetricIndicatorServiceMock.Object,
                 ProjectItemServiceMock.Object,
                 TimeProviderMock.Object,
                 UpdateReactionManager,
@@ -141,11 +141,11 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             // Initialization logic in the constructor of
             // DocumentMetadataManager will make calls on the mock
-            // NormalizedUsageOrderService. Reset calls so that these are not
+            // MetricIndicatorService. Reset calls so that these are not
             // counted in the tests that the created DocumentMetadataManager
             // will be used in.
 
-            NormalizedUsageOrderServiceMock.Invocations.Clear();
+            MetricIndicatorServiceMock.Invocations.Clear();
 
             return manager;
         }

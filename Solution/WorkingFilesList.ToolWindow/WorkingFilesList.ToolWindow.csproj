@@ -52,7 +52,7 @@
     <Compile Include="Interface\IDocumentMetadataFactory.cs" />
     <Compile Include="Interface\IDteEventsSubscriber.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
-    <Compile Include="Interface\INormalizedUsageOrderService.cs" />
+    <Compile Include="Interface\IMetricIndicatorService.cs" />
     <Compile Include="Interface\IIOService.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IPinnedItemStorageService.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="ViewModel\Command\ActivateWindow.cs" />
     <Compile Include="ViewModel\Command\CloseDocument.cs" />
     <Compile Include="ViewModel\DocumentMetadataManager.cs" />
-    <Compile Include="Service\NormalizedUsageOrderService.cs" />
+    <Compile Include="Service\MetricIndicatorService.cs" />
     <Compile Include="ViewModel\OptionsLists.cs" />
     <Compile Include="ViewModel\ProjectBrushes.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\AssignProjectColoursReaction.cs" />

@@ -27,7 +27,7 @@ namespace WorkingFilesList.Core.Model
         private bool _showConfigurationBar = true;
         private bool _showSearchBar = true;
         private bool _showFileTypeIcons;
-        private bool _showRecentUsage;
+        private MetricIndicatorType _metricIndicatorType;
         private int _pathSegmentCount;
         private int _unityRefreshDelay;
         private string _documentSortOptionName;
@@ -123,20 +123,20 @@ namespace WorkingFilesList.Core.Model
             }
         }
 
-        public bool ShowRecentUsage
+        public MetricIndicatorType MetricIndicatorType
         {
             get
             {
-                return _showRecentUsage;
+                return _metricIndicatorType;
             }
 
             set
             {
-                if (_showRecentUsage != value)
+                if (_metricIndicatorType != value)
                 {
-                    _showRecentUsage = value;
+                    _metricIndicatorType = value;
                     OnPropertyChanged();
-                    OnShowRecentUsageUpdate();
+                    OnMetricIndicatorTypeUpdate();
                 }
             }
         }
@@ -251,7 +251,7 @@ namespace WorkingFilesList.Core.Model
         {
         }
 
-        protected virtual void OnShowRecentUsageUpdate()
+        protected virtual void OnMetricIndicatorTypeUpdate()
         {
         }
 

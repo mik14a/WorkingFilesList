@@ -52,8 +52,8 @@ namespace WorkingFilesList.ToolWindow.Repository
             model.ShowFileTypeIcons = _storedSettingsRepository
                 .GetShowFileTypeIcons();
 
-            model.ShowRecentUsage = _storedSettingsRepository
-                .GetShowRecentUsage();
+            model.MetricIndicatorType = _storedSettingsRepository
+                .GetMetricIndicatorType();
 
             model.PathSegmentCount = _storedSettingsRepository
                 .GetPathSegmentCount();
@@ -87,7 +87,7 @@ namespace WorkingFilesList.ToolWindow.Repository
             _storedSettingsRepository.SetGroupByProject(model.GroupByProject);
             _storedSettingsRepository.SetHighlightFileName(model.HighlightFileName);
             _storedSettingsRepository.SetShowFileTypeIcons(model.ShowFileTypeIcons);
-            _storedSettingsRepository.SetShowRecentUsage(model.ShowRecentUsage);
+            _storedSettingsRepository.SetMetricIndicatorType(model.MetricIndicatorType);
             _storedSettingsRepository.SetPathSegmentCount(model.PathSegmentCount);
             _storedSettingsRepository.SetUnityRefreshDelay(model.UnityRefreshDelay);
             _storedSettingsRepository.SetDocumentSortOptionName(model.DocumentSortOptionName);

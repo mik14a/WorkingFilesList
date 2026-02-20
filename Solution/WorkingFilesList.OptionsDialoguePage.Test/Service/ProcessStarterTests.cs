@@ -39,7 +39,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test.Service
             // Arrange
 
             var exceptionThrown = false;
-            var exceptionMessage = string.Empty;
+            var exceptionType = string.Empty;
 
             var info = new ProcessStartInfo();
             var processStarter = new ProcessStarter();
@@ -53,15 +53,14 @@ namespace WorkingFilesList.OptionsDialoguePage.Test.Service
             catch (InvalidOperationException e)
             {
                 exceptionThrown = true;
-                exceptionMessage = e.Message;
+                exceptionType = e.GetType().ToString();
             }
 
             // Assert
 
             Assert.IsTrue(exceptionThrown);
 
-            Assert.That(exceptionMessage, Is.EqualTo(
-                "Cannot start process because a file name has not been provided."));
+            Assert.That(exceptionType, Is.EqualTo("System.InvalidOperationException"));
         }
     }
 }

@@ -30,11 +30,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
     public class ShowRecentUsageReactionTests
     {
         [Test]
-        public void UpdateCollectionUsesNormalizedUsageOrderService()
+        public void UpdateCollectionUsesMetricIndicatorService()
         {
             // Arrange
 
-            var serviceMock = new Mock<INormalizedUsageOrderService>();
+            var serviceMock = new Mock<IMetricIndicatorService>();
 
             var updateReaction = (IUpdateReaction)new ShowRecentUsageReaction(
                 serviceMock.Object);
@@ -50,7 +50,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
 
             // Assert
 
-            serviceMock.Verify(s => s.SetUsageOrder(collection, preferences));
+            serviceMock.Verify(s => s.SetMetricIndicator(collection, preferences));
         }
     }
 }

@@ -15,16 +15,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using WorkingFilesList.Core.Interface;
-using WorkingFilesList.Core.Model;
-
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.Core.Model
 {
-    public interface INormalizedUsageOrderService
+    /// <summary>
+    /// Type of metric indicator to display for each file in the list
+    /// </summary>
+    public enum MetricIndicatorType
     {
-        void SetUsageOrder(
-            IList<DocumentMetadata> metadataCollection,
-            IUserPreferences userPreferences);
+        /// <summary>
+        /// No metric indicator (empty bar)
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Full bar for all items
+        /// </summary>
+        Full,
+
+        /// <summary>
+        /// Display usage order metric based on when files were activated
+        /// </summary>
+        UsageOrder,
+
+        /// <summary>
+        /// Display line count metric based on file line count
+        /// </summary>
+        LineCount
     }
 }

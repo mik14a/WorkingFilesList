@@ -50,11 +50,10 @@ namespace WorkingFilesList.Core.Interface
         bool ShowFileTypeIcons { get; set; }
 
         /// <summary>
-        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
-        /// list should show the order of its historical usage reletive to the
-        /// other entries on that list
+        /// Type of metric indicator to display for each entry on the
+        /// <see cref="DocumentMetadata"/> list
         /// </summary>
-        bool ShowRecentUsage { get; set; }
+        MetricIndicatorType MetricIndicatorType { get; set; }
 
         /// <summary>
         /// Indicates whether to show the quick-configuration bar at the top of

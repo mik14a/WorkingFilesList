@@ -1311,8 +1311,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(metadataCollection, Is.Not.Null);
 
-            builder.NormalizedUsageOrderServiceMock
-                .Verify(n => n.SetUsageOrder(
+            builder.MetricIndicatorServiceMock
+                .Verify(n => n.SetMetricIndicator(
                     (IList<DocumentMetadata>) metadataCollection,
                     It.IsAny<IUserPreferences>()));
         }
@@ -1352,7 +1352,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // add item again
             manager.Add(info);
-            builder.NormalizedUsageOrderServiceMock.Invocations.Clear();
+            builder.MetricIndicatorServiceMock.Invocations.Clear();
 
             // Act
 
@@ -1360,8 +1360,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.NormalizedUsageOrderServiceMock
-                .Verify(n => n.SetUsageOrder(
+            builder.MetricIndicatorServiceMock
+                .Verify(n => n.SetMetricIndicator(
                     It.IsAny<IList<DocumentMetadata>>(),
                     It.IsAny<IUserPreferences>()));
         }
@@ -1549,19 +1549,19 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
         [TestCase(true)]
         [TestCase(false)]
-        public void SynchronizeUsesNormalizedUsageOrderService(bool setUsageOrder)
+        public void SynchronizeUsesMetricIndicatorService(bool updateMetricIndicator)
         {
             // Arrange
 
-            var setUsageOrderInvoked = false;
+            var setMetricIndicatorInvoked = false;
 
             var builder = new DocumentMetadataManagerBuilder();
 
-            builder.NormalizedUsageOrderServiceMock
-                .Setup(n => n.SetUsageOrder(
+            builder.MetricIndicatorServiceMock
+                .Setup(n => n.SetMetricIndicator(
                     It.IsAny<IList<DocumentMetadata>>(),
                     It.IsAny<IUserPreferences>()))
-                .Callback(() => setUsageOrderInvoked = true);
+                .Callback(() => setMetricIndicatorInvoked = true);
 
             builder.UpdateReactionMapping = new TestingUpdateReactionMapping(
                 new Dictionary<string, IEnumerable<IUpdateReaction>>());
@@ -1575,16 +1575,16 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(documentsMock.Object, setUsageOrder);
+            manager.Synchronize(documentsMock.Object, updateMetricIndicator);
 
             // Assert
 
-            Assert.That(setUsageOrderInvoked, Is.EqualTo(setUsageOrder));
+            Assert.That(setMetricIndicatorInvoked, Is.EqualTo(updateMetricIndicator));
         }
 
         [TestCase(true)]
         [TestCase(false)]
-        public void SynchronizeRefreshesActiveDocumentMetadata(bool setUsageOrder)
+        public void SynchronizeRefreshesActiveDocumentMetadata(bool updateMetricIndicator)
         {
             // Arrange
 
@@ -1610,7 +1610,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(documentsMock.Object, setUsageOrder);
+            manager.Synchronize(documentsMock.Object, updateMetricIndicator);
 
             // Assert
 
@@ -1651,8 +1651,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            metadataManagerBuilder.NormalizedUsageOrderServiceMock
-                .Verify(n => n.SetUsageOrder(
+            metadataManagerBuilder.MetricIndicatorServiceMock
+                .Verify(n => n.SetMetricIndicator(
                     It.IsAny<IList<DocumentMetadata>>(),
                     It.IsAny<IUserPreferences>()));
         }
@@ -1748,9 +1748,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             manager.Activate(document1Name);
 
             // Assert
-
-            builder.NormalizedUsageOrderServiceMock.Verify(n => n
-                .SetUsageOrder(
+            builder.MetricIndicatorServiceMock.Verify(n => n
+                .SetMetricIndicator(
                     It.IsAny<IList<DocumentMetadata>>(),
                     It.IsAny<IUserPreferences>()),
                 Times.Once);

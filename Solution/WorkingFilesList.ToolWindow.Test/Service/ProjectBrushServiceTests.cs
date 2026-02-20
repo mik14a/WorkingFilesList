@@ -20,6 +20,7 @@ using NUnit.Framework;
 using System.Linq;
 using System.Windows.Media;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 
@@ -154,7 +155,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void GenericBrushReturnedWhenNotAssigningProjectColoursAndShowingRecentUsage()
+        public void GenericBrushReturnedWhenNotAssigningProjectColoursAndMetricIndicatorTypeIsNotNone()
         {
             // Arrange
 
@@ -163,7 +164,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             var userPreferences = Mock.Of<IUserPreferences>(u =>
                 !u.AssignProjectColours &&
-                u.ShowRecentUsage);
+                u.MetricIndicatorType == MetricIndicatorType.UsageOrder);
 
             // Act
 
@@ -175,7 +176,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void TransparentReturnedWhenNotAssigningProjectColoursAndNotShowingRecentUsage()
+        public void TransparentReturnedWhenNotAssigningProjectColoursAndMetricIndicatorTypeIsNone()
         {
             // Arrange
 
@@ -184,7 +185,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             var userPreferences = Mock.Of<IUserPreferences>(u =>
                 !u.AssignProjectColours &&
-                !u.ShowRecentUsage);
+                u.MetricIndicatorType == MetricIndicatorType.None);
 
             // Act
 

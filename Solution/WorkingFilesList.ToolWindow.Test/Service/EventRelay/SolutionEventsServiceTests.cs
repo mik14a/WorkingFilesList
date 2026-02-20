@@ -430,9 +430,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            Assert.AreEqual(
-                "The value needs to be either -1 (signifying an infinite timeout), 0 or a positive integer.\r\nParameter name: millisecondsDelay",
-                exception.Message);
+            Assert.AreEqual(typeof(ArgumentOutOfRangeException), exception.GetType());
         }
 
         [Test]

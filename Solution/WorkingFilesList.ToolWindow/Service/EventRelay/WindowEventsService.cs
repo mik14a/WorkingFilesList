@@ -73,7 +73,9 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                             window.Document.ProjectItem.ContainingProject.Name,
 
                         ProjectFullName =
-                            window.Document.ProjectItem.ContainingProject.FullName
+                            window.Document.ProjectItem.ContainingProject.FullName,
+
+                        LineCount = (window.Document.Object("TextDocument") as TextDocument)?.EndPoint?.Line ?? 0
                     };
 
                     _documentMetadataManager.Add(info);

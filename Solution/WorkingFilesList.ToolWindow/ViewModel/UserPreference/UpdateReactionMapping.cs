@@ -66,13 +66,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
                     updateReactions.OfType<GroupByProjectReaction>().Single()
                 },
 
-                [nameof(IUserPreferences.ShowRecentUsage)] = new IUpdateReaction[]
+                [nameof(IUserPreferences.MetricIndicatorType)] = new IUpdateReaction[]
                 {
-                    // Showing/hiding recent usage needs to update project colours
-                    // in addition to usage order: when project-specific-colours
+                    // Changing metric indicator type needs to update project colours
+                    // in addition to metric indicator: when project-specific-colours
                     // is disabled, the colour still needs to be set to either a
                     // generic project colour, or Transparent depending on whether
-                    // recent file usage is visually represented.
+                    // metric indicator is visually represented.
 
                     updateReactions.OfType<AssignProjectColoursReaction>().Single(),
                     updateReactions.OfType<ShowRecentUsageReaction>().Single()

@@ -35,7 +35,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly ICountdownTimer _countdownTimer;
         private readonly IDocumentMetadataEqualityService _metadataEqualityService;
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
-        private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
+        private readonly IMetricIndicatorService _metricIndicatorService;
         private readonly IProjectItemService _projectItemService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
@@ -72,7 +72,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             ICountdownTimer countdownTimer,
             IDocumentMetadataEqualityService metadataEqualityService,
             IDocumentMetadataFactory documentMetadataFactory,
-            INormalizedUsageOrderService normalizedUsageOrderService,
+            IMetricIndicatorService metricIndicatorService,
             IProjectItemService projectItemService,
             ITimeProvider timeProvider,
             IUpdateReactionManager updateReactionManager,
@@ -90,7 +90,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _metadataEqualityService = metadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;
-            _normalizedUsageOrderService = normalizedUsageOrderService;
+            _metricIndicatorService = metricIndicatorService;
             _projectItemService = projectItemService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
@@ -181,6 +181,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 metadata = _documentMetadataFactory.Create(info);
                 _activeDocumentMetadata.Add(metadata);
             }
+            else
+            {
+                // Update line count for existing metadata
+                metadata.Lines = info.LineCount;
+            }
 
             metadata.HasWindow = !isPinned || exists;
 
@@ -230,7 +235,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             if (activated)
             {
-                _normalizedUsageOrderService.SetUsageOrder(
+                _metricIndicatorService.SetMetricIndicator(
                     _activeDocumentMetadata,
                     _userPreferences);
 
@@ -292,7 +297,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     newMetadata.PinOrder = existingMetadata.PinOrder;
                     _activeDocumentMetadata[i] = newMetadata;
 
-                    _normalizedUsageOrderService.SetUsageOrder(
+                    _metricIndicatorService.SetMetricIndicator(
                         _activeDocumentMetadata,
                         _userPreferences);
 
@@ -313,12 +318,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <see cref="Documents"/> that <see cref="ActiveDocumentMetadata"/>
         /// should reflect
         /// </param>
-        /// <param name="setUsageOrder">
-        /// true to update <see cref="DocumentMetadata.UsageOrder"/> for every
+        /// <param name="updateMetricIndicator">
+        /// true to update <see cref="DocumentMetadata.MetricIndicator"/> for every
         /// <see cref="DocumentMetadata"/> in <see cref="ActiveDocumentMetadata"/>
         /// after Synchronization, false otherwise
         /// </param>
-        public void Synchronize(Documents documents, bool setUsageOrder)
+        public void Synchronize(Documents documents, bool updateMetricIndicator)
         {
             // DocumentMetadataInfo for each Document in 'documents'
             var documentsInfoSet = new HashSet<DocumentMetadataInfo>();
@@ -340,7 +345,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     {
                         FullName = document.FullName,
                         ProjectDisplayName = document.ProjectItem.ContainingProject.Name,
-                        ProjectFullName = document.ProjectItem.ContainingProject.FullName
+                        ProjectFullName = document.ProjectItem.ContainingProject.FullName,
+                        LineCount = (document.Object("TextDocument") as TextDocument)?.EndPoint?.Line ?? 0
                     };
 
                     documentsInfoSet.Add(info);
@@ -387,9 +393,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 }
             }
 
-            if (setUsageOrder)
+            if (updateMetricIndicator)
             {
-                _normalizedUsageOrderService.SetUsageOrder(
+                _metricIndicatorService.SetMetricIndicator(
                     _activeDocumentMetadata,
                     _userPreferences);
             }

@@ -22,6 +22,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:locator="clr-namespace:WorkingFilesList.Core.Service.Locator;assembly=WorkingFilesList.Core"
              xmlns:coreControls="clr-namespace:WorkingFilesList.Core.Controls;assembly=WorkingFilesList.Core"
+             xmlns:converter="clr-namespace:WorkingFilesList.OptionsDialoguePage.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="420">
     
@@ -32,6 +33,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <locator:ViewModelService x:Key="ViewModel" />
+            <converter:MetricIndicatorTypeToBooleanConverter x:Key="MetricIndicatorTypeConverter" />
 
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Margin" Value="0,2"/>
@@ -94,7 +96,31 @@
                     
                     <StackPanel>
                         <CheckBox IsChecked="{Binding ShowFileTypeIcons, Mode=TwoWay}">Show icon for file type</CheckBox>
-                        <CheckBox IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}">Show most recently used order</CheckBox>
+                        
+                        <StackPanel Margin="0,2">
+                            <TextBlock Text="Metric indicator:" Margin="0,0,0,2"/>
+                            <RadioButton GroupName="MetricIndicator" 
+                                        IsChecked="{Binding MetricIndicatorType, Converter={StaticResource MetricIndicatorTypeConverter}, ConverterParameter=None, Mode=TwoWay}" 
+                                        Margin="15,0,0,0">
+                                None
+                            </RadioButton>
+                            <RadioButton GroupName="MetricIndicator" 
+                                        IsChecked="{Binding MetricIndicatorType, Converter={StaticResource MetricIndicatorTypeConverter}, ConverterParameter=Full, Mode=TwoWay}" 
+                                        Margin="15,0,0,0">
+                                Full
+                            </RadioButton>
+                            <RadioButton GroupName="MetricIndicator" 
+                                        IsChecked="{Binding MetricIndicatorType, Converter={StaticResource MetricIndicatorTypeConverter}, ConverterParameter=UsageOrder, Mode=TwoWay}" 
+                                        Margin="15,0,0,0">
+                                Usage order
+                            </RadioButton>
+                            <RadioButton GroupName="MetricIndicator" 
+                                        IsChecked="{Binding MetricIndicatorType, Converter={StaticResource MetricIndicatorTypeConverter}, ConverterParameter=LineCount, Mode=TwoWay}" 
+                                        Margin="15,0,0,0">
+                                Line count
+                            </RadioButton>
+                        </StackPanel>
+                        
                         <CheckBox IsChecked="{Binding AssignProjectColours, Mode=TwoWay}">Set background colour according to parent project</CheckBox>
                         <CheckBox IsChecked="{Binding HighlightFileName, Mode=TwoWay}">Highlight file name</CheckBox>
                         

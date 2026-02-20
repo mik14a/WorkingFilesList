@@ -227,14 +227,14 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
-        public void ShowRecentUsageIsRestoredWhenLoadingUserPreferencesModel()
+        public void MetricIndicatorTypeIsRestoredWhenLoadingUserPreferencesModel()
         {
             // Arrange
 
-            const bool showRecentUsage = true;
+            const MetricIndicatorType metricIndicatorType = MetricIndicatorType.UsageOrder;
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>(s =>
-                s.GetShowRecentUsage() == showRecentUsage);
+                s.GetMetricIndicatorType() == metricIndicatorType);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
                 settingsRepository);
@@ -247,19 +247,19 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            Mock.Get(settingsRepository).Verify(s => s.GetShowRecentUsage());
-            Assert.That(preferences.ShowRecentUsage, Is.EqualTo(showRecentUsage));
+            Mock.Get(settingsRepository).Verify(s => s.GetMetricIndicatorType());
+            Assert.That(preferences.MetricIndicatorType, Is.EqualTo(metricIndicatorType));
         }
 
         [Test]
-        public void ShowRecentUsageIsStoredWhenSavingUserPreferencesModel()
+        public void MetricIndicatorTypeIsStoredWhenSavingUserPreferencesModel()
         {
             // Arrange
 
-            const bool showRecentUsage = true;
+            const MetricIndicatorType metricIndicatorType = MetricIndicatorType.UsageOrder;
 
             var preferences = Mock.Of<IUserPreferencesModel>(p =>
-                p.ShowRecentUsage == showRecentUsage);
+                p.MetricIndicatorType == metricIndicatorType);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
@@ -273,7 +273,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Assert
 
             Mock.Get(settingsRepository).Verify(s =>
-                s.SetShowRecentUsage(showRecentUsage));
+                s.SetMetricIndicatorType(metricIndicatorType));
         }
 
         [Test]

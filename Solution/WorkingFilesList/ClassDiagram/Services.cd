@@ -26,7 +26,7 @@
     <Position X="14" Y="2.5" Width="1.75" />
     <TypeIdentifier />
   </Interface>
-  <Interface Name="WorkingFilesList.ToolWindow.Interface.INormalizedUsageOrderService">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IMetricIndicatorService">
     <Position X="5.5" Y="2.5" Width="2.5" />
     <TypeIdentifier />
   </Interface>

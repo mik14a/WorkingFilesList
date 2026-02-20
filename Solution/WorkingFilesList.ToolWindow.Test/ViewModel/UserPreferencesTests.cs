@@ -20,6 +20,7 @@ using NUnit.Framework;
 using System.ComponentModel;
 using System.Windows;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.Core.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
@@ -270,31 +271,31 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SettingShowRecentUsageStoresNewValueInRepository()
+        public void SettingMetricIndicatorTypeStoresNewValueInRepository()
         {
             // Arrange
 
-            const bool showRecentUsage = true;
+            const MetricIndicatorType metricIndicatorType = MetricIndicatorType.UsageOrder;
 
             var builder = new UserPreferencesBuilder();
             var preferences = builder.CreateUserPreferences();
 
             // Act
 
-            preferences.ShowRecentUsage = showRecentUsage;
+            preferences.MetricIndicatorType = metricIndicatorType;
 
             // Verify
 
             builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetShowRecentUsage(showRecentUsage));
+                .Verify(r => r.SetMetricIndicatorType(metricIndicatorType));
         }
 
         [Test]
-        public void ShowRecentUsageValueIsRestoredOnInstanceCreation()
+        public void MetricIndicatorTypeValueIsRestoredOnInstanceCreation()
         {
             // Arrange
 
-            const bool showRecentUsage = true;
+            const MetricIndicatorType metricIndicatorType = MetricIndicatorType.LineCount;
 
             var builder = new UserPreferencesBuilder();
 
@@ -302,7 +303,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
                 .Callback<IUserPreferencesModel>(u =>
                 {
-                    u.ShowRecentUsage = showRecentUsage;
+                    u.MetricIndicatorType = metricIndicatorType;
                 });
 
             // Act
@@ -316,11 +317,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     Times.Once());
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.SetShowRecentUsage(
-                    It.IsAny<bool>()),
+                .Verify(s => s.SetMetricIndicatorType(
+                    It.IsAny<MetricIndicatorType>()),
                     Times.Never);
 
-            Assert.That(preferences.ShowRecentUsage, Is.EqualTo(showRecentUsage));
+            Assert.That(preferences.MetricIndicatorType, Is.EqualTo(metricIndicatorType));
         }
 
         [Test]

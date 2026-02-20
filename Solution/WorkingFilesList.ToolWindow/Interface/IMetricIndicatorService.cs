@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 - 2019 Anthony Fung and The Working Files List Project contributors
+// Copyright © 2016 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,22 +15,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EnvDTE;
-using System.ComponentModel;
+using System.Collections.Generic;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IDocumentMetadataManager : IPinnedMetadataManager
+    public interface IMetricIndicatorService
     {
-        ICollectionView ActiveDocumentMetadata { get; }
-        string FilterString { get; set; }
-
-        void Activate(string fullName);
-        void Add(DocumentMetadataInfo info);
-        void AddPinned(DocumentMetadataInfo info);
-        void Clear();
-        bool UpdateFullName(string newName, string oldName);
-        void Synchronize(Documents documents, bool updateMetricIndicator);
+        void SetMetricIndicator(
+            IList<DocumentMetadata> metadataCollection,
+            IUserPreferences userPreferences);
     }
 }

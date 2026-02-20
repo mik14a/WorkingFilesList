@@ -116,7 +116,7 @@
                                  IsHitTestVisible="False"
                                  Maximum="1"
                                  Minimum="0"
-                                 Value="{Binding UsageOrder}">
+                                 Value="{Binding MetricIndicator}">
                     </ProgressBar>
 
                     <Border x:Name="MouseOverBorder"

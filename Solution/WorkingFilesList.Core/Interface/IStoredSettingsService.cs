@@ -15,6 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using WorkingFilesList.Core.Model;
+
 namespace WorkingFilesList.Core.Interface
 {
     public interface IStoredSettingsRepository
@@ -37,8 +39,8 @@ namespace WorkingFilesList.Core.Interface
         bool GetHighlightFileName();
         void SetHighlightFileName(bool value);
 
-        bool GetShowRecentUsage();
-        void SetShowRecentUsage(bool value);
+        MetricIndicatorType GetMetricIndicatorType();
+        void SetMetricIndicatorType(MetricIndicatorType value);
 
         bool GetAssignProjectColours();
         void SetAssignProjectColours(bool value);

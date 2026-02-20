@@ -183,11 +183,11 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingShowRecentUsageToSameValueDoesNotRaisePropertyChanged()
+        public void SettingMetricIndicatorTypeToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
 
-            const bool showRecentUsage = true;
+            const MetricIndicatorType metricIndicatorType = MetricIndicatorType.UsageOrder;
             var preferences = new UserPreferencesModel();
             var propertyChangedRaised = false;
 
@@ -196,12 +196,12 @@ namespace WorkingFilesList.Core.Test.Model
                 propertyChangedRaised = true;
             });
 
-            preferences.ShowRecentUsage = showRecentUsage;
+            preferences.MetricIndicatorType = metricIndicatorType;
             preferences.PropertyChanged += handler;
 
             // Act
 
-            preferences.ShowRecentUsage = showRecentUsage;
+            preferences.MetricIndicatorType = metricIndicatorType;
             preferences.PropertyChanged -= handler;
 
             // Assert
@@ -210,7 +210,7 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingShowRecentUsageToDifferentValueRaisesPropertyChanged()
+        public void SettingMetricIndicatorTypeToDifferentValueRaisesPropertyChanged()
         {
             // Arrange
 
@@ -226,7 +226,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            preferences.ShowRecentUsage = true;
+            preferences.MetricIndicatorType = MetricIndicatorType.UsageOrder;
             preferences.PropertyChanged -= handler;
 
             // Assert

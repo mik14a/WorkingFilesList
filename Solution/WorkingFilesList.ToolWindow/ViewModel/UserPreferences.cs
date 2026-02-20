@@ -162,14 +162,14 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _storedSettingsRepository.SetShowSearchBar(ShowSearchBar);
         }
 
-        protected override void OnShowRecentUsageUpdate()
+        protected override void OnMetricIndicatorTypeUpdate()
         {
             if (_initializing)
             {
                 return;
             }
 
-            _storedSettingsRepository.SetShowRecentUsage(ShowRecentUsage);
+            _storedSettingsRepository.SetMetricIndicatorType(MetricIndicatorType);
         }
 
         protected override void OnShowFileTypeIconsUpdate()

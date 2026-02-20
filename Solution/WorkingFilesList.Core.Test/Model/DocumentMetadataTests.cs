@@ -308,7 +308,7 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingUsageOrderToSameValueDoesNotRaisePropertyChanged()
+        public void SettingMetricIndicatorToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
 
@@ -318,7 +318,7 @@ namespace WorkingFilesList.Core.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                UsageOrder = value
+                MetricIndicator = value
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -330,7 +330,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.UsageOrder = value;
+            metadata.MetricIndicator = value;
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -339,7 +339,7 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingUsageOrderToDifferentValueRaisesPropertyChanged()
+        public void SettingMetricIndicatorToDifferentValueRaisesPropertyChanged()
         {
             // Arrange
 
@@ -348,7 +348,7 @@ namespace WorkingFilesList.Core.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                UsageOrder = 0.3
+                MetricIndicator = 0.3
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -360,7 +360,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.UsageOrder = 0.7;
+            metadata.MetricIndicator = 0.7;
             metadata.PropertyChanged -= handler;
 
             // Assert

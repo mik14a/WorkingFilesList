@@ -17,6 +17,7 @@
 
 using Microsoft.VisualStudio.Settings;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Repository
@@ -28,7 +29,7 @@ namespace WorkingFilesList.ToolWindow.Repository
         private const string DefaultDocumentSortOptionName = "A-Z";
         private const string DefaultProjectSortOptionName = "None";
         private const bool DefaultGroupByProject = true;
-        private const bool DefaultShowRecentUsage = true;
+        private const MetricIndicatorType DefaultMetricIndicatorType = MetricIndicatorType.UsageOrder;
         private const bool DefaultAssignProjectColours = true;
         private const bool DefaultShowFileTypeIcons = true;
         private const bool DefaultShowConfigurationBar = true;
@@ -181,30 +182,35 @@ namespace WorkingFilesList.ToolWindow.Repository
             }
         }
 
-        public bool GetShowRecentUsage()
+        public MetricIndicatorType GetMetricIndicatorType()
         {
             using (var service = _settingsStoreService.GetSettingsStore(true))
             {
-                var showRecentUsage = service.SettingsStore.GetBoolean(
+                var metricIndicatorTypeString = service.SettingsStore.GetString(
                     _settingsCollectionName,
-                    nameof(IUserPreferencesModel.ShowRecentUsage),
-                    DefaultShowRecentUsage);
+                    nameof(IUserPreferencesModel.MetricIndicatorType),
+                    DefaultMetricIndicatorType.ToString());
 
-                return showRecentUsage;
+                if (System.Enum.TryParse<MetricIndicatorType>(metricIndicatorTypeString, out var result))
+                {
+                    return result;
+                }
+
+                return DefaultMetricIndicatorType;
             }
         }
 
-        public void SetShowRecentUsage(bool value)
+        public void SetMetricIndicatorType(MetricIndicatorType value)
         {
             using (var service = _settingsStoreService.GetSettingsStore(false))
             {
                 var store = (WritableSettingsStore)service.SettingsStore;
                 store.CreateCollection(_settingsCollectionName);
 
-                store.SetBoolean(
+                store.SetString(
                     _settingsCollectionName,
-                    nameof(IUserPreferencesModel.ShowRecentUsage),
-                    value);
+                    nameof(IUserPreferencesModel.MetricIndicatorType),
+                    value.ToString());
             }
         }
 

@@ -36,8 +36,9 @@ namespace WorkingFilesList.Core.Model
         private bool _isReordering;
         private Brush _projectBrush;
         private Direction _reorderingDirection;
-        private double _usageOrder;
+        private double _metricIndicator;
         private int _pinOrder;
+        private int _lines;
         private string _displayNameHighlight;
         private string _displayNamePostHighlight;
         private string _displayNamePreHighlight;
@@ -48,8 +49,8 @@ namespace WorkingFilesList.Core.Model
         public BitmapSource Icon { get; set; }
 
         /// <summary>
-        /// Used when <see cref="IUserPreferences.ShowRecentUsage"/> and/or
-        /// <see cref="IUserPreferences.AssignProjectColours"/> are enabled
+        /// Used when <see cref="IUserPreferences.MetricIndicatorType"/> is not None
+        /// and/or <see cref="IUserPreferences.AssignProjectColours"/> is enabled
         /// </summary>
         public Brush ProjectBrush
         {
@@ -287,23 +288,40 @@ namespace WorkingFilesList.Core.Model
         }
 
         /// <summary>
-        /// Indicates the position of this <see cref="DocumentMetadata"/>
-        /// instance in relation to others when ordered by
-        /// <see cref="ActivatedAt"/>. Represented by a value between 0 and 1
-        /// inclusive
+        /// Normalized metric indicator value (0 to 1) for display in progress bar
         /// </summary>
-        public double UsageOrder
+        public double MetricIndicator
         {
             get
             {
-                return _usageOrder;
+                return _metricIndicator;
             }
 
             set
             {
-                if (_usageOrder != value)
+                if (_metricIndicator != value)
                 {
-                    _usageOrder = value;
+                    _metricIndicator = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Number of lines in the document
+        /// </summary>
+        public int Lines
+        {
+            get
+            {
+                return _lines;
+            }
+
+            set
+            {
+                if (_lines != value)
+                {
+                    _lines = value;
                     OnPropertyChanged();
                 }
             }
@@ -320,6 +338,7 @@ namespace WorkingFilesList.Core.Model
             FullName = info.FullName;
             Icon = icon;
             PinOrder = UnpinnedOrderValue;
+            Lines = info.LineCount;
 
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,

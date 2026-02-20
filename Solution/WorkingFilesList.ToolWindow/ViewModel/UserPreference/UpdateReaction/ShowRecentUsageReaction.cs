@@ -25,19 +25,19 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {
     public class ShowRecentUsageReaction : IUpdateReaction
     {
-        private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
+        private readonly IMetricIndicatorService _metricIndicatorService;
 
         public ShowRecentUsageReaction(
-            INormalizedUsageOrderService normalizedUsageOrderService)
+            IMetricIndicatorService metricIndicatorService)
         {
-            _normalizedUsageOrderService = normalizedUsageOrderService;
+            _metricIndicatorService = metricIndicatorService;
         }
 
         public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
         {
             var collection = (IList<DocumentMetadata>) view.SourceCollection;
 
-            _normalizedUsageOrderService.SetUsageOrder(
+            _metricIndicatorService.SetMetricIndicator(
                 collection,
                 userPreferences);
         }

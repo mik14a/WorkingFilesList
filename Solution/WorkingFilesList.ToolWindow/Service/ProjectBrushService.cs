@@ -88,9 +88,9 @@ namespace WorkingFilesList.ToolWindow.Service
             }
             else
             {
-                returnBrush = userPreferences.ShowRecentUsage
-                    ? _projectBrushes.GenericBrush
-                    : Brushes.Transparent;
+                returnBrush = userPreferences.MetricIndicatorType == MetricIndicatorType.None
+                    ? Brushes.Transparent
+                    : _projectBrushes.GenericBrush;
             }
 
             return returnBrush;

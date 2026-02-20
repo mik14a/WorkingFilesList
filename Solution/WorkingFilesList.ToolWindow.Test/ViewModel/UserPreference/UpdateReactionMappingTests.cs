@@ -41,7 +41,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
                     Mock.Of<IFilePathService>()),
 
                 new SelectedSortOptionReaction(Mock.Of<ISortOptionsService>()),
-                new ShowRecentUsageReaction(Mock.Of<INormalizedUsageOrderService>())
+                new ShowRecentUsageReaction(Mock.Of<IMetricIndicatorService>())
             };
 
             return updateReactions;
@@ -72,11 +72,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             typeof(PathSegmentCountReaction))]
 
         [TestCase(
-            nameof(IUserPreferences.ShowRecentUsage),
+            nameof(IUserPreferences.MetricIndicatorType),
             typeof(ShowRecentUsageReaction))]
 
         [TestCase(
-            nameof(IUserPreferences.ShowRecentUsage),
+            nameof(IUserPreferences.MetricIndicatorType),
             typeof(AssignProjectColoursReaction))]
 
         public void MappingTableMapsCorrespondingUpdateReaction(

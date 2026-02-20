@@ -35,5 +35,10 @@ namespace WorkingFilesList.Core.Model
         /// <see cref="Project.FullName"/> of the document's containing project
         /// </summary>
         public string ProjectFullName { get; set; }
+
+        /// <summary>
+        /// Number of lines in the document
+        /// </summary>
+        public int LineCount { get; set; }
     }
 }
